@@ -104,9 +104,10 @@ def test_bucket_fill():
 
     image = fill(image=image, seed_point=(7, 3))
 
-    print("-" * 25)
-    print("After filling:")
-    show_image(image)
+    if image is not None:
+        print("-" * 25)
+        print("After filling:")
+        show_image(image)
 
 
 if __name__ == '__main__':

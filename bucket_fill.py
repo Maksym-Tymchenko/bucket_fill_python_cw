@@ -1,5 +1,8 @@
+""" Coursework 1: Bucket Fill
+"""
+
 def load_image(filename):
-    """ Load image from file made of 0 (unfilled pixels), 1 (boundary pixels) and 2 (filled pixel)
+    """ Load image from file made of 0 (unfilled pixels) and 1 (boundary pixels) and 2 (filled pixel)
 
     Example of content of filename:
 
@@ -33,7 +36,20 @@ def load_image(filename):
     return image
 
 
-def get_str_image(image):
+def stringify_image(image):
+    """ Convert image representation into a human-friendly string representation
+
+    Args:
+        image (list) : list of lists of 0 (unfilled pixel), 1 (boundary pixel) and 2 (filled pixel)
+
+    Returns:
+        str : a human-friendly string representation of the image
+    """
+    
+    if image is None:
+        return ""
+
+    # The variable "mapping" defines how to display each type of pixel.
     mapping = {
         0: " ",
         1: "*",
@@ -48,7 +64,7 @@ def get_str_image(image):
         for pixel in row:
             image_str += mapping.get(pixel, "?") + " "
         image_str += "|"
-        image_str += '\n'
+        image_str += "\n"
     if image:
         image_str += "‾ " * (len(image[0]) + 2) + "\n"
 
@@ -60,15 +76,8 @@ def show_image(image):
 
     Args:
         image (list) : list of lists of 0 (unfilled pixel), 1 (boundary pixel) and 2 (filled pixel)
-
-    Note:
-        The variable "mapping" defines how to display each type of pixel.
-
-    Returns:
-        None
     """
-
-    print(get_str_image(image))
+    print(stringify_image(image))
 
 
 def fill(image, seed_point):
@@ -83,8 +92,8 @@ def fill(image, seed_point):
         image (list) : a 2D nested list representation of an image, where
                        0 represents an unfilled pixel, and
                        1 represents a boundary pixel
-        seed_point (tuple) : a 2-element tuple representing the (row, col) of
-                       the seed point to start filling
+        seed_point (tuple) : a 2-element tuple representing the (row, col) 
+                       coordinates of the seed point to start filling
 
     Returns:
         list : a 2D representation of the filled image, where
@@ -93,22 +102,23 @@ def fill(image, seed_point):
                2 represents a filled pixel
     """
 
-    # TODO: to complete
+    # TODO: Complete this function
+    return []
 
 
-def test_bucket_fill():
-    image = load_image("data/test_pattern.txt")
+def example_fill():
+    image = load_image("data/bar.txt")
 
     print("Before filling:")
     show_image(image)
 
     image = fill(image=image, seed_point=(7, 3))
 
-    if image is not None:
-        print("-" * 25)
-        print("After filling:")
-        show_image(image)
+    print("-" * 25)
+    print("After filling:")
+    show_image(image)
 
 
 if __name__ == '__main__':
-    test_bucket_fill()
+    example_fill()
+

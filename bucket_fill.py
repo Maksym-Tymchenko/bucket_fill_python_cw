@@ -103,7 +103,27 @@ def fill(image, seed_point):
     """
 
     # TODO: Complete this function
-    return []
+    # Extract row and col coordinates of the seed
+    row,col = seed_point
+    # Calculate num rows and cols of the image
+    num_rows = len(image)
+    num_cols = len(image[0])
+    
+    # Define condition for filling current cell
+    is_valid_row = (0 <= row < num_rows)
+    is_valid_col = (0 <= col < num_cols)
+    
+    if is_valid_row and is_valid_col:
+        is_unfilled = (image[row][col] == 0)
+        if is_unfilled:
+            # Fill current cell
+            image[row][col] = 2
+            # Apply fill function to all four adjacent cells
+            image = fill(image,(row-1,col))
+            image = fill(image,(row,col+1))
+            image = fill(image,(row+1,col))
+            image = fill(image,(row,col-1)) 
+    return image
 
 
 def example_fill():
@@ -118,7 +138,23 @@ def example_fill():
     print("After filling:")
     show_image(image)
 
+def example_fill_custom():
+    image = load_image("data/smiley.txt")
+
+    print("Before filling:")
+    show_image(image)
+    import random
+    seed_point_random = (random.randint(0,len(image)),random.randint(0,len(image[0])))
+    image = fill(image=image, seed_point=(7,7))
+
+    print("-" * 25)
+    print("After filling:")
+    show_image(image)
+def test_fill():
+    test_image = [[1,1,1,1,1],[1,0,0,0,1],[1,1,1,1,1]]
+    test_seed = (1,2)
+    output_image = fill(test_image,test_seed)
+    return output_image
 
 if __name__ == '__main__':
-    example_fill()
-
+    example_fill_custom()

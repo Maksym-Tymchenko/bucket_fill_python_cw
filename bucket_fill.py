@@ -136,6 +136,28 @@ def fill(image, seed_point):
     
     return image
 
+def create_square_image(n=25):
+
+    # Define path to unfilled image
+    file_path_unfilled = "./data/" + "square_image_" + str(n) + ".txt"
+
+    # Define path to expected filled image
+    file_path_filled = "./data/" + "expected_" + "square_image_" + str(n) + ".txt"
+    
+    # Write image to file
+    with open(file_path_unfilled, 'w') as f:
+        line = n*"0 "+"\n"
+        for i in range(n):
+            f.write(line)
+
+    # Write expected image to file
+    with open(file_path_filled, 'w') as f:
+        line = n*"2 "+"\n"
+        for i in range(n):
+            f.write(line)
+
+    # Return path of created files
+        return (file_path_unfilled, file_path_filled)
 
 def example_fill():
     image = load_image("data/bar.txt")
@@ -167,5 +189,30 @@ def test_fill():
     output_image = fill(test_image,test_seed)
     return output_image
 
+def test_large_image(n=25):
+
+    image_file,expected_image_file = create_square_image(n)
+    image = load_image(image_file)
+    image_expected = load_image(expected_image_file)
+
+    print("Before filling:")
+    show_image(image)
+
+    image_filled = fill(image=image, seed_point=(round(n/2), round(n/2)))
+
+    print("-" * 25)
+    print("After filling:")
+    show_image(image_filled)
+    
+    if image_filled == image_expected:
+        print("Your image looks as expected!")
+        return True
+    else:
+        print("Your image does not look as expected!")
+        return False      
+
+
+
 if __name__ == '__main__':
-    example_fill_custom()
+    #example_fill_custom()
+    test_large_image(28)

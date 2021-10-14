@@ -109,7 +109,7 @@ def fill(image, seed_point):
     # Calculate num rows and cols of the image
     num_rows = len(image)
     num_cols = len(image[0])
-
+    
     # Return original image if seed has non integer coordinates
     if not (isinstance(row,int) and  isinstance(col,int)):
         # print("Seed does not contain integer coordinates. Returning original image.")
@@ -136,7 +136,16 @@ def fill(image, seed_point):
     
     return image
 
+
 def create_square_image(n=25):
+    """ Write an image of zeros and an image of ones to separate files
+
+    Args:
+        n (int) : size of the desired image
+
+    Returns:
+        tuple : (path_to_unfilled_image, path_to_filled_image) where each entry is a string
+    """
 
     # Define path to unfilled image
     file_path_unfilled = "./data/" + "square_image_" + str(n) + ".txt"
@@ -159,6 +168,7 @@ def create_square_image(n=25):
     # Return path of created files
         return (file_path_unfilled, file_path_filled)
 
+
 def example_fill():
     image = load_image("data/bar.txt")
 
@@ -171,26 +181,75 @@ def example_fill():
     print("After filling:")
     show_image(image)
 
+
 def example_fill_custom():
     image = load_image("data/smiley.txt")
 
     print("Before filling:")
     show_image(image)
-    import random
-    seed_point_random = (random.randint(0,len(image)),random.randint(0,len(image[0])))
     image = fill(image=image, seed_point=(7,7))
 
     print("-" * 25)
     print("After filling:")
     show_image(image)
-def test_fill():
-    test_image = [[1,1,1,1,1],[1,0,0,0,1],[1,1,1,1,1]]
-    test_seed = (1,2)
-    output_image = fill(test_image,test_seed)
-    return output_image
+ 
 
-def test_large_image(n=25):
+def test_invalid_seed():
+    """ Check that the fill function returns the original image when given invalid seeds."""
+    # Create a list of invalid seeds
+    seed_list = [(1.5,2),(-2,0),("myseed",3)]
+    image_input = load_image("data/bar.txt")
+    
+    # Check that the input image is returned with invalid seeds
+    for seed in seed_list:
+        image_output = fill(image=image_input, seed_point=seed)
+        assert(image_input == image_output)
 
+ 
+def test_image(image_path, image_expected_path, seed_point):
+    """ Check that the fill function returns the expected image.
+
+    Args:
+        image_path (str) : path to file containing the image representation
+        image_expected_path (str) : path to file containing the expected image representation
+        seed_point (tuple) : a 2-element tuple representing the (row, col)
+                       coordinates of the seed point to start filling
+    Returns:
+        boolean : True if test passed, False otherwise
+
+    """
+    image = load_image(image_path)
+    image_expected = load_image(image_expected_path)
+
+    print("Before filling:")
+    show_image(image)
+
+    image_filled = fill(image=image, seed_point=seed_point)
+
+    print("-" * 25)
+    print("After filling:")
+    show_image(image_filled)
+
+    print("Expected image:")
+    show_image(image_expected)
+
+    if image_filled == image_expected:
+        print("Your image looks as expected!\n")
+        return True
+    else:
+        print("Your image does not look as expected!\n")
+        return False
+
+
+def test_large_image():
+    """ Check that the fill function returns the original image when given a large 25x25 image input.
+       
+        Returns:
+            boolean : True if test passed, False otherwise
+
+    """
+    # Create empty square image of size n
+    n = 25
     image_file,expected_image_file = create_square_image(n)
     image = load_image(image_file)
     image_expected = load_image(expected_image_file)
@@ -203,16 +262,25 @@ def test_large_image(n=25):
     print("-" * 25)
     print("After filling:")
     show_image(image_filled)
-    
+
+    print("Expected image:")
+    show_image(image_expected)    
+
     if image_filled == image_expected:
-        print("Your image looks as expected!")
+        print("Your image looks as expected!\n")
         return True
     else:
-        print("Your image does not look as expected!")
+        print("Your image does not look as expected!\n")
         return False      
 
 
 
 if __name__ == '__main__':
-    #example_fill_custom()
-    test_large_image(28)
+    # Test invalid seeds
+    test_invalid_seed()
+    # Test bar.txt image
+    test_image("data/bar.txt","data/expected_bar.txt",(7,7))
+    # Test smiley.txt image
+    test_image("data/smiley.txt","data/expected_smiley.txt",(7,7))
+    # Test large image
+    test_large_image()

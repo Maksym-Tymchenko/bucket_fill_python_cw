@@ -105,24 +105,35 @@ def fill(image, seed_point):
     # TODO: Complete this function
     # Extract row and col coordinates of the seed
     row,col = seed_point
+
     # Calculate num rows and cols of the image
     num_rows = len(image)
     num_cols = len(image[0])
+
+    # Return original image if seed has non integer coordinates
+    if not (isinstance(row,int) and  isinstance(col,int)):
+        # print("Seed does not contain integer coordinates. Returning original image.")
+        return image
     
-    # Define condition for filling current cell
-    is_valid_row = (0 <= row < num_rows)
-    is_valid_col = (0 <= col < num_cols)
+    # Return original image if seed has coordinates outside of the image
+    is_inside_row = (0 <= row < num_rows)
+    is_inside_col = (0 <= col < num_cols)
+    if not (is_inside_row and is_inside_col):
+        # print("Seed is outside of image. Returning original image.")
+        return image
+
+    # Only fill current cell if it is unfilled
+    is_unfilled = (image[row][col] == 0)
+    if is_unfilled:
+        # Fill current cell
+        image[row][col] = 2
+
+        # Apply fill function to all four adjacent cells
+        image = fill(image,(row-1,col))
+        image = fill(image,(row,col+1))
+        image = fill(image,(row+1,col))
+        image = fill(image,(row,col-1)) 
     
-    if is_valid_row and is_valid_col:
-        is_unfilled = (image[row][col] == 0)
-        if is_unfilled:
-            # Fill current cell
-            image[row][col] = 2
-            # Apply fill function to all four adjacent cells
-            image = fill(image,(row-1,col))
-            image = fill(image,(row,col+1))
-            image = fill(image,(row+1,col))
-            image = fill(image,(row,col-1)) 
     return image
 
 

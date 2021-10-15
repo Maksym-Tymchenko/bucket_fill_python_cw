@@ -109,14 +109,12 @@ def fill(image, seed_point):
 
     # Return original image if seed has non integer coordinates
     if not (isinstance(row, int) and isinstance(col, int)):
-        # print("Seed does not contain integer coordinates. Returning original image.")
         return image
 
     # Return original image if seed has coordinates outside of the image
     is_inside_row = (0 <= row < num_rows)
     is_inside_col = (0 <= col < num_cols)
     if not (is_inside_row and is_inside_col):
-        # print("Seed is outside of image. Returning original image.")
         return image
 
     # Only fill current cell if it is unfilled

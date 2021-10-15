@@ -100,7 +100,6 @@ def fill(image, seed_point):
                1 represents a boundary pixel, and
                2 represents a filled pixel
     """
-    # TODO: Complete this function
     # Extract row and col coordinates of the seed
     (row, col) = seed_point
 
@@ -139,7 +138,7 @@ def create_square_image(n=25):
     """Write an image of zeros and an image of ones to separate files.
 
     Args:
-        n (int) : size of the desired image
+        n (int) : size of the desired images
 
     Returns:
         tuple : (path_to_unfilled_image, path_to_filled_image) where each entry is a string
@@ -258,6 +257,9 @@ if __name__ == '__main__':
 
     # Test smiley.txt image
     test_image("data/smiley.txt", "data/expected_smiley.txt", (7, 7))
+
+    # Test snake image
+    test_image("data/snake.txt", "data/expected_snake.txt", (6, 7))
 
     # Test large image
     test_large_image()

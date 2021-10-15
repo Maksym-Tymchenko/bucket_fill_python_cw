@@ -261,5 +261,5 @@ if __name__ == '__main__':
     # Test snake image
     test_image("data/snake.txt", "data/expected_snake.txt", (6, 7))
 
-    # Test large image
+    # Test large 25x25 image
     test_large_image()
